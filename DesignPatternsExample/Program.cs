@@ -4,24 +4,48 @@ namespace DesignPatternsExample
 {
     class Program
     {
-        private static void DepartPattern(string name, System.Action action)
+        private static void Depart(string name, System.Action action, bool category = false)
         {
-            var firstLine = "--------- " + name + " Example ---------";
+            var firstLine = "------------- " + name + " -------------";
+
+            if (category)
+            {
+                firstLine = "------------- " + name + " -------------\n";
+            }
+
             Console.WriteLine(firstLine);
 
             action();
 
             for (int i = 0; i < firstLine.Length; i++)
                 Console.Write("-");
+
+            Console.WriteLine("\n");
         }
 
         static void Main(string[] args)
         {
-            DepartPattern("Singleton", () =>
-            {
-                var content = Creational.Singleton.Instance.GetContent();
-                Console.WriteLine(content);
-            });
+            Depart("Creational Patterns", () => {
+                Depart("Singleton", () =>
+                {
+                    var content = Creational.Singleton.Instance.GetContent();
+                    Console.WriteLine(content);
+                });
+
+                Depart("Prototype", () =>
+                {
+                    var firstPrototype = new Creational.CellularPhonePrototype("iPhone");
+                    var firstPrototypeClone = firstPrototype.Clone();
+                    var secondPrototype = new Creational.StationaryPhonePrototype("Siemens");
+                    var secondPrototypeClone = secondPrototype.Clone();
+
+                    Console.WriteLine("First: \t\t" + firstPrototype.Model + "\t\t" + firstPrototype.Price);
+                    Console.WriteLine("Clone: \t\t" + firstPrototypeClone.Model + "\t\t" + firstPrototypeClone.Price);
+
+                    Console.WriteLine("Second: \t" + secondPrototype.Model + "\t\t" + secondPrototype.Price);
+                    Console.WriteLine("Clone: \t\t" + secondPrototypeClone.Model + "\t\t" + secondPrototypeClone.Price);
+                });
+            }, true);
 
             Console.ReadKey();
         }
