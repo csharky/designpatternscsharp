@@ -45,6 +45,22 @@ namespace DesignPatternsExample
                     Console.WriteLine("Second: \t" + secondPrototype.Model + "\t\t" + secondPrototype.Price);
                     Console.WriteLine("Clone: \t\t" + secondPrototypeClone.Model + "\t\t" + secondPrototypeClone.Price);
                 });
+
+                Depart("Builder", () =>
+                {
+                    var director = new Creational.Director();
+                    var fordBuilder = new Creational.CarBuilder("Ford");
+                    var harleyBuilder = new Creational.MotorCycleBuilder("Harley Davidson");
+
+                    director.Construct(fordBuilder);
+                    director.Construct(harleyBuilder);
+
+                    var vehicle = fordBuilder.GetVehicle();
+                    vehicle.Show();
+
+                    vehicle = harleyBuilder.GetVehicle();
+                    vehicle.Show();
+                });
             }, true);
 
             Console.ReadKey();
